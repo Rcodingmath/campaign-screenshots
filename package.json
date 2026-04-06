@@ -1,0 +1,10 @@
+{
+  "name": "campaign-screenshots",
+  "version": "1.0.0",
+  "scripts": {
+    "capture": "node capture.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}

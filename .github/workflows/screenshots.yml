@@ -1,11 +1,13 @@
 name: Capture Campaign Screenshots
 
 on:
-  workflow_dispatch:   # Lets you trigger it manually with a button click
+  workflow_dispatch:
 
 jobs:
   screenshot:
-    runs-on: macos-latest    # ← This runs on a real Mac machine!
+    runs-on: macos-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout code
@@ -14,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -25,9 +27,11 @@ jobs:
       - name: Run screenshot capture
         run: node capture.js
 
-      - name: Upload screenshots
+      - name: Upload report + screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: campaign-screenshots
-          path: screenshots/
-          retention-days: 7    # Screenshots stay available for 7 days
+          name: campaign-report
+          path: |
+            report.html
+            screenshots/
+          retention-days: 7

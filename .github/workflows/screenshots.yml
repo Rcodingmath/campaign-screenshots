@@ -1,1 +1,33 @@
+name: Capture Campaign Screenshots
 
+on:
+  workflow_dispatch:   # Lets you trigger it manually with a button click
+
+jobs:
+  screenshot:
+    runs-on: macos-latest    # ← This runs on a real Mac machine!
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install webkit
+
+      - name: Run screenshot capture
+        run: node capture.js
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v3
+        with:
+          name: campaign-screenshots
+          path: screenshots/
+          retention-days: 7    # Screenshots stay available for 7 days
